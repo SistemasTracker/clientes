@@ -1,0 +1,63 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "Nunito Sans";
+    background-color: #cd9807;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+p{
+    margin: 0;
+    text-transform: capitalize;
+    font-weight: bold;
+}
+
+.dropdown-toggle{
+    background-color: #fff;
+}
+
+.form-control {
+    line-height: 2;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+}
+.form-control:focus{
+    box-shadow: none;
+    border-color:#F4BE2C;
+}
+.form-check-input:checked{
+    background-color: #F4BE2C;
+    border-color: #F4BE2C;
+}
+.form-check-input:focus{
+    box-shadow: none;
+}
+.form-control:hover{
+    border-color: #F4BE2C;
+}
+.bg-custom {
+    border: 1px solid #F4BE2C;
+}
+.btn-custom {
+    border-color: #F4BE2C;
+    color: #F4BE2C;
+}
+.btn-custom:hover {
+    background-color: #F4BE2C;
+    color: #fff;
+    box-shadow:0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+}
+    
+    @media(max-width: 992px) {
+    form{
+    width: 80%;
+    }
+    }
+    @media(max-width: 575px) {
+    form{
+    width: 100%;
+    }
+    }   
