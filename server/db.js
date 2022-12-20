@@ -1,9 +1,3 @@
 import { createPool } from "mysql2/promise";
 
-export const pool = createPool({
-    host:'5.161.64.34',
-    port:3306,
-    user: 'trackerc_user',
-    password: 'Tracker.X.2022',
-    database: 'trackerc_servicios'
-});
+export const pool = createPool('mysql://3n8yyytowvntt2qnvb7q:pscale_pw_mG86lI0tQYkJMnHVcSq6wspCwDBD0PNH90h24YeGmvQ@us-east.connect.psdb.cloud/tracker_clientes?ssl={"rejectUnauthorized":true}');
