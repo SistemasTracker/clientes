@@ -59,7 +59,7 @@ export function validateToken(req,res,next){
 }
 export const getOrdenes = async(req, res) => {
     try {
-        const [result] = await pool.query("(Select idordenTrabajo, DATE_FORMAT(fecha,'%d-%m-%Y') as fecha,nombreCliente,vendedor,direccion,telefono1,email,nombreEmergencia,telefono2,correoEmergencia,chasis,motor,marca,modelo,placa,color,idusuario,plan,financiera,estado from ordenTrabajo ORDER BY idordenTrabajo DESC)");
+        const [result] = await pool.query("(Select idordenTrabajo, DATE_FORMAT(fecha,'%d-%m-%Y') as fecha,nombreCliente,vendedor,direccion,telefono1,email,nombreEmergencia,telefono2,correoEmergencia,chasis,motor,marca,modelo,placa,color,idusuario,plan,financiera,estado,anio,local,valor,facturaNombre,ruc from ordenTrabajo ORDER BY idordenTrabajo DESC)");
         //console.log(result);
         res.send(result); 
     } catch (error) {
@@ -70,7 +70,7 @@ export const getOrdenes = async(req, res) => {
 
 export const getOrden = async (req, res) => {
     try {
-        const [result] = await pool.query("(Select idordenTrabajo, DATE_FORMAT(fecha,'%d-%m-%Y') as fecha,nombreCliente,vendedor,direccion,telefono1,email,nombreEmergencia,telefono2,correoEmergencia,chasis,motor,marca,modelo,placa,color,idusuario,plan,financiera,estado from ordenTrabajo where idordenTrabajo=?)", 
+        const [result] = await pool.query("(Select idordenTrabajo, DATE_FORMAT(fecha,'%d-%m-%Y') as fecha,nombreCliente,vendedor,direccion,telefono1,email,nombreEmergencia,telefono2,correoEmergencia,chasis,motor,marca,modelo,placa,color,idusuario,plan,financiera,estado,anio,local,valor,facturaNombre,ruc from ordenTrabajo where idordenTrabajo=?)", 
         [req.params.id]);
         if(result.length === 0 ) {
             return res.status(404).json({message: "ORDEN DE TRABAJO NO ENCONTRADA"});
@@ -86,10 +86,10 @@ export const postOrden = async (req, res) => {
 
     try {
         console.log(req.body);
-        const {fecha,nombreCliente,vendedor,direccion,telefono1,email,nombreEmergencia,telefono2,correoEmergencia,chasis,motor,marca,modelo,placa,color,idusuario,plan,financiera} = req.body;
-        const result = await pool.query("INSERT INTO ordenTrabajo(fecha,nombreCliente,vendedor,direccion,telefono1,email,nombreEmergencia,telefono2,correoEmergencia,chasis,motor,marca,modelo,placa,color,idusuario,plan,financiera) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        const {fecha,nombreCliente,vendedor,direccion,telefono1,email,nombreEmergencia,telefono2,correoEmergencia,chasis,motor,marca,modelo,placa,color,idusuario,plan,financiera,anio,local,valor,facturaNombre,ruc} = req.body;
+        const result = await pool.query("INSERT INTO ordenTrabajo(fecha,nombreCliente,vendedor,direccion,telefono1,email,nombreEmergencia,telefono2,correoEmergencia,chasis,motor,marca,modelo,placa,color,idusuario,plan,financiera,anio,local,valor,facturaNombre,ruc) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
     [
-            fecha,nombreCliente,vendedor,direccion,telefono1,email,nombreEmergencia,telefono2,correoEmergencia,chasis,motor,marca,modelo,placa,color,idusuario,plan,financiera
+            fecha,nombreCliente,vendedor,direccion,telefono1,email,nombreEmergencia,telefono2,correoEmergencia,chasis,motor,marca,modelo,placa,color,idusuario,plan,financiera,anio,local,valor,facturaNombre,ruc
     ]);
         console.log(result);
         res.send("insertando orden"); 
