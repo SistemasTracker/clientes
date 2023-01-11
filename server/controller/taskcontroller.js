@@ -117,7 +117,7 @@ export const crearOrden = async (req, res) => {
 export const getOrdenesUser = async (req, res) => {
 
     try {
-        const [result] = await pool.query("(Select idordenTrabajo, DATE_FORMAT(fecha,'%d-%m-%Y') as fecha,nombreCliente,vendedor,direccion,telefono1,email,nombreEmergencia,telefono2,correoEmergencia,chasis,motor,marca,modelo,placa,color,idusuario,plan,financiera,estado from ordenTrabajo where idusuario=?)", 
+        const [result] = await pool.query("(Select idordenTrabajo, DATE_FORMAT(fecha,'%d-%m-%Y') as fecha,nombreCliente,vendedor,direccion,telefono1,email,nombreEmergencia,telefono2,correoEmergencia,chasis,motor,marca,modelo,placa,color,idusuario,plan,financiera,estado from ordenTrabajo where idusuario=? ORDER BY idordenTrabajo DESC)", 
     [req.params.id]);
     if(result.length === 0 ) {
         return res.status(404).json({message: "ORDEN DE TRABAJO NO ENCONTRADA"});
