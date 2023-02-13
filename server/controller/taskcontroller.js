@@ -2,6 +2,7 @@ import { pool } from "../db.js";
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const jwt = require('jsonwebtoken');
+const soaPrequest = require('easy-soap-request');
 require('dotenv').config();
 
 export const getUsers = async (req, res) => {
@@ -128,3 +129,43 @@ export const getOrdenesUser = async (req, res) => {
     }
     
 }
+
+export const deleteOrdenId = async (req, res) => {
+    try {
+        
+    } catch (error) {
+        
+    }
+}
+
+
+const url= "https://www.dataaccess.com/webservicesserver/NumberConversion.wso";
+const sampleHeaders = {
+    'Content-Type': 'text/xml;charset=UTF-8'
+}
+const xml = `<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <NumberToWords xmlns="http://www.dataaccess.com/webservicesserver/">
+      <ubiNum>500</ubiNum>
+    </NumberToWords>
+  </soap:Body>
+</soap:Envelope>`;
+
+export const soapMensaje = async () => {
+    const { response } = await soaPrequest({ url: url, headers: sampleHeaders, xml: xml });
+    console.log(response.body);
+    /* Example output:
+    <soap:Envelope
+    xmlns:soap="http://www.w3.org/2003/05/soap-envelope/"
+    soap:encodingStyle="http://www.w3.org/2003/05/soap-encoding">
+   
+    <soap:Body>
+      <GetUserResponse>
+        <Username>Clue Mediator</Username>
+      </GetUserResponse>
+    </soap:Body>
+   
+    </soap:Envelope>
+    */
+  };
