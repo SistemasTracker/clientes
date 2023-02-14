@@ -4,6 +4,7 @@ const require = createRequire(import.meta.url);
 const jwt = require('jsonwebtoken');
 const soaPrequest = require('easy-soap-request');
 require('dotenv').config();
+const jsdom = require("jsdom");
 
 export const getUsers = async (req, res) => {
     try {
@@ -138,34 +139,24 @@ export const deleteOrdenId = async (req, res) => {
     }
 }
 
-
-const url= "https://www.dataaccess.com/webservicesserver/NumberConversion.wso";
+export const soapReq = async (req,res) => {
+const {numero, usuario, mensaje} = req.body
+const CodFuncSrvMensajes = 'AS45+-*/12324.';
+const url= 'http://new.tracker.com.ec:8083/email/wsSMS.asmx?op=EnviarMensaje ';
 const sampleHeaders = {
     'Content-Type': 'text/xml;charset=UTF-8'
 }
-const xml = `<?xml version="1.0" encoding="utf-8"?>
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-  <soap:Body>
-    <NumberToWords xmlns="http://www.dataaccess.com/webservicesserver/">
-      <ubiNum>500</ubiNum>
-    </NumberToWords>
-  </soap:Body>
-</soap:Envelope>`;
+const xml = '<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"> <soap:Body> <EnviarMensaje xmlns="http://tempuri.org/"><numero>' + numero + '</numero><mensaje>' + mensaje + '</mensaje> <codigoFuncionamiento>' + CodFuncSrvMensajes + '</codigoFuncionamiento><Usuario>' + usuario + '</Usuario></EnviarMensaje></soap:Body></soap:Envelope>';
 
-export const soapMensaje = async () => {
-    const { response } = await soaPrequest({ url: url, headers: sampleHeaders, xml: xml });
-    console.log(response.body);
-    /* Example output:
-    <soap:Envelope
-    xmlns:soap="http://www.w3.org/2003/05/soap-envelope/"
-    soap:encodingStyle="http://www.w3.org/2003/05/soap-encoding">
-   
-    <soap:Body>
-      <GetUserResponse>
-        <Username>Clue Mediator</Username>
-      </GetUserResponse>
-    </soap:Body>
-   
-    </soap:Envelope>
-    */
-  };
+(async () => {
+    try {
+        const { response } = await soaPrequest({ url: url, headers: sampleHeaders, xml: xml });
+        const xmldoc = new jsdom.JSDOM(response.body);
+        const resp = xmldoc.window.document.querySelector("EnviarMensajeResult").textContent;
+        console.log(resp);  
+        res.send(resp);
+        
+    } catch (error) {
+        return res.status(500).json({message: error.message});
+    }
+  })();}
