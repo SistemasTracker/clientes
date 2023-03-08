@@ -122,7 +122,7 @@ export const getOrdenesUser = async (req, res) => {
         const [result] = await pool.query("(Select idordenTrabajo, DATE_FORMAT(fecha,'%d-%m-%Y') as fecha,nombreCliente,vendedor,direccion,telefono1,email,nombreEmergencia,telefono2,correoEmergencia,chasis,motor,marca,modelo,placa,color,idusuario,plan,financiera,estado from ordenTrabajo where idusuario=? ORDER BY idordenTrabajo DESC)", 
     [req.params.id]);
     if(result.length === 0 ) {
-        return res.status(404).json({message: "ORDEN DE TRABAJO NO ENCONTRADA"});
+        return res.status(404).json({message: "ORDEN DE TRABAJO NO ELIMINADA"});
     }
     res.send(result); 
     } catch (error) {
@@ -133,9 +133,14 @@ export const getOrdenesUser = async (req, res) => {
 
 export const deleteOrdenId = async (req, res) => {
     try {
-        
+        const [result] = await pool.query("DELETE FROM ordenTrabajo WHERE idordenTrabajo = ?", 
+    [req.params.id]);
+    if(result.length === 0 ) {
+        return res.status(404).json({message: "ORDEN DE TRABAJO NO ENCONTRADA"});
+    }
+    res.send(result); 
     } catch (error) {
-        
+        return res.status(500).json({message: error.message});
     }
 }
 
