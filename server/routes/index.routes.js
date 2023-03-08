@@ -1,5 +1,5 @@
 import { Router } from "express";     
-import { getUsers, getOrdenesUser, getOrdenes, postOrden, getOrden, postLogin, validateToken, crearOrden, soapReq } from "../controller/taskcontroller.js";
+import { getUsers, getOrdenesUser, getOrdenes, postOrden, getOrden, postLogin, validateToken, crearOrden, soapReq, deleteOrdenId } from "../controller/taskcontroller.js";
 
 const router = Router();
 
@@ -19,5 +19,7 @@ router.post('/orden', postOrden)
 router.patch('/orden/:id',validateToken, crearOrden)
 
 router.post('/soapReq', soapReq)
+
+router.delete('/orden/:id', validateToken, deleteOrdenId)
 
 export default router;
